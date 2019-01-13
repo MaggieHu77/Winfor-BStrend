@@ -274,6 +274,7 @@ Monitor.set_sche(self) (Monitor in monitor_s)
 ```
 ##### 3.2.2 defindex
 &emsp;&emsp;定义了用于日K线，30minK线和5minK线间（三级）分级索引类，主要实现了这三类K线时间关系的换算和比较。使得有统一的标准来衡量三类K线的时间关系，以及便利它们之间的转换。
+
 &emsp;&emsp;本项目由于不涉及低级别K线的使用，实际上并不需要使用这一模块的大部分功能。但是本模块基本功能从完整项目(<b>BS_trade</b>)中迁移而来，因此保留了该父项目的数据结构记法。对这一模块的进一步说明，请访问<b>BS_trade</b>相关文档。
 ##### 3.2.3 loadData
 &emsp;&emsp;该模块从WIND量化接口中导出数据转换为`K object`组成的列表。
