@@ -372,7 +372,7 @@ Monitor.set_sche(self) (Monitor in monitor_s)
 &emsp;&emsp;定义其他模块需要使用的常数参数，并在运行主要运算前读取`config.conf`定义的参数及预处理。
 + `reset_params()`：读取`config.conf`文件中定义的参数并赋值给模块中定义的同名全局参数（但是全大写）。
 
-#### 3.3 重新打包
+#### 3.3重新打包
 &emsp;&emsp;完成新版本后的执行程序打包：cmd > pip install pyinstaller
 进入项目所在文件夹> cd directory/BStrend
 执行打包程序>pyinstaller -F -c monitor_s.py生成monitor_s.exe(可以重命名)文件在/directory/BStrend/dist/文件夹下。
