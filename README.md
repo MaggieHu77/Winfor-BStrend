@@ -326,20 +326,20 @@ Monitor.set_sche(self) (Monitor in monitor_s)
 
    进行回测计算和绘图的入口函数，内部创建`HLPoint`和`Trend`类对象进行高低点和趋势计算，并将其计算结果传入创建的`BSgraph`类对象进行绘图工作和提取数据工作。返回截止回测结束的策略运行结果(`strategy_info`)以及历史高低点列表(`stock_info`)。如果进行了绘图操作，还返回图像地址(`gdir`)。
 
-   ##### 3.2.7 monitor_s
-   &emsp;&emsp;程序运行入口，进行参数预处理、回测检验、数据库读写以及每个交易日的定时操作。
-   + `set_trigger()`：设置进行每日实盘更新任务的触发器
-   + class `Monitor`：
-     + `runIn(self)`：从地址中读入股票代码列表，并加入三大市场指数(000001.SH, HSI.HI, SPX.GI)。
-     + `check_dir(self)`：检验项目涉及到的文件夹地址是否存在，如果不存在就自动创建同名空文件夹。
-     + `init_single(self, code, end_date=str(date.today()))`：重新回测单只股票并更新数据库相关记录。
-       + code：指定需要重新回测的股票代码
-       + end_date：指定回测截止日期
-     + `init(self)`：循环方式对列表中每只股票进行回测(内部调用`runbacktest`函数)，并将返回结果分别写入(Strategy_s和股票自身的高低点表)
-     + `set_sche(self)`：在`apschedular`调度框架下，加入每日进行策略计算更新并发送邮件任务，最后启动任务。
-     + `daily1(self)`：执行每日计算更新、数据库更新以及发送邮件任务。为减少操作频率，美股的更新操作与A股和港股的合并进行，但是美股更新时间再A股更新时间的前一交易日（顺延）；以A股港股交易日正常收盘后为基准，更新前一交易日美股数据（周一则更新上周五美股数据）。循环操作更新列表中股票，分别调用`HLPoint.step_hl_s`和`Trend.step_trdmax_s, Trend.step_trd_s`计算单日高低点变动和趋势变动。调用`sent`函数进行图像更新和邮件文字编辑，并将返回的html格式字段发送为邮件。最后调用`daily2(self)`对美股进行类似操作。
-     + `daily2(self)`：与`daily1(self)`进行相似操作，目标是美股。
-     + `sent(self)`：重新绘制趋势发生变化的股票的图像，返回邮件内容的html字符串。
+##### 3.2.7 monitor_s
+ &emsp;&emsp;程序运行入口，进行参数预处理、回测检验、数据库读写以及每个交易日的定时操作。
+ + `set_trigger()`：设置进行每日实盘更新任务的触发器
+ + class `Monitor`：
+   + `runIn(self)`：从地址中读入股票代码列表，并加入三大市场指数(000001.SH, HSI.HI, SPX.GI)。
+   + `check_dir(self)`：检验项目涉及到的文件夹地址是否存在，如果不存在就自动创建同名空文件夹。
+   + `init_single(self, code, end_date=str(date.today()))`：重新回测单只股票并更新数据库相关记录。
+     + code：指定需要重新回测的股票代码
+     + end_date：指定回测截止日期
+   + `init(self)`：循环方式对列表中每只股票进行回测(内部调用`runbacktest`函数)，并将返回结果分别写入(Strategy_s和股票自身的高低点表)
+   + `set_sche(self)`：在`apschedular`调度框架下，加入每日进行策略计算更新并发送邮件任务，最后启动任务。
+   + `daily1(self)`：执行每日计算更新、数据库更新以及发送邮件任务。为减少操作频率，美股的更新操作与A股和港股的合并进行，但是美股更新时间再A股更新时间的前一交易日（顺延）；以A股港股交易日正常收盘后为基准，更新前一交易日美股数据（周一则更新上周五美股数据）。循环操作更新列表中股票，分别调用`HLPoint.step_hl_s`和`Trend.step_trdmax_s, Trend.step_trd_s`计算单日高低点变动和趋势变动。调用`sent`函数进行图像更新和邮件文字编辑，并将返回的html格式字段发送为邮件。最后调用`daily2(self)`对美股进行类似操作。
+   + `daily2(self)`：与`daily1(self)`进行相似操作，目标是美股。
+   + `sent(self)`：重新绘制趋势发生变化的股票的图像，返回邮件内容的html字符串。
 
 + `indexTop(pre_list, fix)`：对原股票代码列表排序进行修改，将指数的代码进行置顶。如果不存在对应的市场指数，则将其加入股票列表中。
 ##### 3.2.8 email_s
